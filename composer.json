@@ -1,6 +1,6 @@
 {
     "name": "tekkla/core-ajax",
-    "version": "dev",
+    "version": "v1.0",
     "require": {
         "php": ">=7.0.0"
     },
