@@ -1,6 +1,10 @@
 {
     "name": "tekkla/core-ajax",
     "version": "dev-master",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
     "autoload": {
         "psr-0" : {
             "Core\\Ajax" : "src"
