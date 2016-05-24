@@ -1,5 +1,6 @@
 {
     "name" : "tekkla/core-ajax",
+    "version" : "dev",
     "autoload" : {
         "psr-0" : {
             "Core\\Ajax" : "src"
