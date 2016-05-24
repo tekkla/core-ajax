@@ -7,7 +7,7 @@
   "minimum-stability" : "dev",
   "autoload" : {
     "psr-0" : {
-      "Core\\Ajax" : "src"
+      "Core\\Ajax" : ""
     }
   },
   "authors" : [ {
