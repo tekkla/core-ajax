@@ -1,6 +1,6 @@
 {
-    "name": "tekkla/core-ajax",
-    "autoload": {
+    "name" : "tekkla/core-ajax",
+    "autoload" : {
         "psr-0" : {
             "Core\\Ajax" : "src"
         }
