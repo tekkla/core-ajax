@@ -1,6 +1,6 @@
 {
     "name" : "tekkla/core-ajax",
-    "version" : "dev",
+    "version" : "0.0.5-dev",
     "description": "PHP2Ajax lib",
     "authors": [
         {
