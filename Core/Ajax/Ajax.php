@@ -36,6 +36,7 @@ class Ajax
     {
         $ajax = [];
 
+        /* @var $cmd \Core\Ajax\Commands\AjaxCommandInterface */
         foreach ($this->commands as $cmd) {
 
             // Create alert on missing target when type is in need-target list
@@ -45,7 +46,7 @@ class Ajax
 
             // Create funcion/arguments array
             $fa = [
-                'f' => $cmd->getFn(),
+                'f' => $cmd->getFunction(),
                 'a' => $cmd->getArgs()
             ];
 
