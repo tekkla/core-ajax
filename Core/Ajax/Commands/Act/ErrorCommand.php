@@ -21,14 +21,14 @@ class ErrorCommand extends AbstractActCommand
      */
     public function __construct($error, $target = '')
     {
-        if (empty($selector)) {
+        if (empty($target)) {
             $target = 'body';
         }
 
         $this->setFunction(self::FUNC_ERROR);
         $this->setArgs([
+            $target,
             $error,
-            $target
         ]);
     }
 }
