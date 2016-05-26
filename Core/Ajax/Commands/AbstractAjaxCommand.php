@@ -62,7 +62,7 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
             Throw new AjaxCommandException('Empty commandtype is not permitted.');
         }
 
-        if ($type != self::ACT && $type != self::DOM) {
+        if ($type != self::TYPE_ACT && $type != self::TYPE_DOM) {
             Throw new AjaxCommandException(sprintf('%s is no valid commandtype', $type));
         }
 
