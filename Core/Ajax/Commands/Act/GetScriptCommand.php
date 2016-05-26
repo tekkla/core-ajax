@@ -24,7 +24,7 @@ class GetScriptCommand extends AbstractActCommand
             Throw new AjaxCommandException('Empty url is not permitted for GetScriptCommands.');
         }
 
-        $this->setType(self::FUNC_GETSCRIPT);
+        $this->setFunction(self::FUNC_GETSCRIPT);
         $this->setArgs($url);
     }
 }
