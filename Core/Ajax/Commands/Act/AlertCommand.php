@@ -13,7 +13,7 @@ class AlertCommand extends AbstractActCommand
 
     public function __construct($alert)
     {
-        $this->setFunction(self::FUNC_ALERT);
+        $this->setFunction('alert');
         $this->setArgs($alert);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 namespace Core\Ajax;
 
-use Core\Ajax\Commands\AjaxCommandInterface;
 use Core\Ajax\Commands\Dom\DomCommandInterface;
+use Core\Ajax\Commands\CommandInterface;
 
 /**
  * Ajax.php
@@ -24,7 +24,7 @@ class Ajax
     /**
      * Builds ajax definition and adds it to the ajaxlist
      */
-    public function addCommand(AjaxCommandInterface $cmd)
+    public function addCommand(CommandInterface $cmd)
     {
         $this->commands[] = $cmd;
     }

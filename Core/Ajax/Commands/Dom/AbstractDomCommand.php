@@ -1,7 +1,7 @@
 <?php
 namespace Core\Ajax\Commands\Dom;
 
-use Core\Ajax\Commands\AbstractAjaxCommand;
+use Core\Ajax\Commands\AbstractCommand;
 
 /**
  * AbstractDomCommand.php
@@ -10,7 +10,7 @@ use Core\Ajax\Commands\AbstractAjaxCommand;
  * @copyright 2016
  * @license MIT
  */
-abstract class AbstractDomCommand extends AbstractAjaxCommand implements DomCommandInterface
+abstract class AbstractDomCommand extends AbstractCommand implements DomCommandInterface
 {
 
     protected $type = self::TYPE_DOM;

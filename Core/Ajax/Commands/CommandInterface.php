@@ -2,13 +2,13 @@
 namespace Core\Ajax\Commands;
 
 /**
- * AjaxCommandInterface.php
+ * CommandInterface.php
  *
  * @author Michael "Tekkla" Zorn <tekkla@tekkla.de>
  * @copyright 2016
  * @license MIT
  */
-interface AjaxCommandInterface
+interface CommandInterface
 {
 
     /**

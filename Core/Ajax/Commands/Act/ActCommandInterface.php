@@ -10,38 +10,4 @@ namespace Core\Ajax\Commands\Act;
  */
 interface ActCommandInterface
 {
-    /**
-     * alert()
-     *
-     * @var string
-     */
-    const FUNC_ALERT = 'alert';
-
-    /**
-     * confirm()
-     *
-     * @var string
-     */
-    const FUNC_CONFIRM = 'confirm';
-
-    /**
-     * jQuery.getScript()
-     *
-     * @var string
-     */
-    const FUNC_GETSCRIPT = 'getScript';
-
-    /**
-     * location.href()
-     *
-     * @var string
-     */
-    const FUNC_HREF = 'href';
-
-    /**
-     * Error display
-     *
-     * @var string
-     */
-    const FUNC_ERROR = 'error';
 }

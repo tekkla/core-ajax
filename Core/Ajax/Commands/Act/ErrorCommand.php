@@ -8,8 +8,14 @@ namespace Core\Ajax\Commands\Act;
  * @copyright 2016
  * @license MIT
  */
-class ErrorCommand extends AbstractActCommand
+class ErrorCommand extends AbstractCallCommand
 {
+
+    protected $call_function = 'CORE.AJAX.COMMAND.error';
+
+    protected $target;
+
+    protected $error;
 
     /**
      * Constructor
@@ -21,15 +27,36 @@ class ErrorCommand extends AbstractActCommand
      */
     public function __construct($error, $target = '')
     {
+        if (empty($error)) {
+            $error = 'Error';
+        }
+
         if (empty($target)) {
             $target = 'body';
         }
 
-        $this->setFunction(self::FUNC_ERROR);
-        $this->setArgs([
+        $this->call_argument = [
             $target,
-            $error,
+            $error
+        ];
+    }
+
+    public function setError($error) {
+
+        if ($error instanceof \Throwable) {
+            $error = $error->getMessage();
+        }
+
+        $this->setCallArgument([
+            $this->target,
+            $this->error
+
         ]);
+    }
+
+    public function getError()
+    {
+        return $this->getCallArgument()[1];
     }
 }
 

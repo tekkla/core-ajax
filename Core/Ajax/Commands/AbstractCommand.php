@@ -2,13 +2,13 @@
 namespace Core\Ajax\Commands;
 
 /**
- * AbstractAjaxCommand.php
+ * AbstractCommand.php
  *
  * @author Michael "Tekkla" Zorn <tekkla@tekkla.de>
  * @copyright 2016
  * @license MIT
  */
-abstract class AbstractAjaxCommand implements AjaxCommandInterface
+abstract class AbstractCommand implements CommandInterface
 {
 
     /**
@@ -59,11 +59,11 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
     public function setType($type)
     {
         if (empty($type)) {
-            Throw new AjaxCommandException('Empty commandtype is not permitted.');
+            Throw new CommandException('Empty commandtype is not permitted.');
         }
 
         if ($type != self::TYPE_ACT && $type != self::TYPE_DOM) {
-            Throw new AjaxCommandException(sprintf('%s is no valid commandtype', $type));
+            Throw new CommandException(sprintf('%s is no valid commandtype', $type));
         }
 
         $this->type = $type;
@@ -78,7 +78,7 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
     public function setFunction($function)
     {
         if (empty($function)) {
-            Throw new AjaxCommandException('Empty functionname is not permitted.');
+            Throw new CommandException('Empty functionname is not permitted.');
         }
 
         $this->function = $function;

@@ -1,7 +1,7 @@
 <?php
 namespace Core\Ajax\Commands\Act;
 
-use Core\Ajax\Commands\AbstractAjaxCommand;
+use Core\Ajax\Commands\AbstractCommand;
 
 /**
  * AbstractActCommand.php
@@ -10,7 +10,7 @@ use Core\Ajax\Commands\AbstractAjaxCommand;
  * @copyright 2016
  * @license MIT
  */
-abstract class AbstractActCommand extends AbstractAjaxCommand implements ActCommandInterface
+abstract class AbstractActCommand extends AbstractCommand implements ActCommandInterface
 {
 
     protected $type = self::TYPE_ACT;
