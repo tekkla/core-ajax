@@ -310,13 +310,20 @@ CORE.AJAX.getAjaxOptions = function(element) {
         var ajaxOptions = {};
     }
 
-    var defaultOptions = ['url' = false, 'type' = 'GET', 'dataType' = 'json', 'data' = false, 'pushState' = true, 'cache' = false];
+    var defaultOptions = {
+        'url' : false,
+        'type' : 'GET',
+        'dataType' : 'json',
+        'data' : false,
+        'pushState' : true,
+        'cache' : false
+    };
 
-    jQuery.each(defaultOptions, function(prop, val) {
-        if (ajaxOptions.hasOwnProperty(prop) === false) {
-            ajaxOptions[prop] = val;
+    Object.keys(defaultOptions).forEach(function(key, index) {
+        if (ajaxOptions.hasOwnProperty(key) === false) {
+            ajaxOptions[key] = defaultOptions[key];
         }
-    }
+    });
 
     // Which url to reqest? The data attribute "form"
     // indicates that we are going to send a
