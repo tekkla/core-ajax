@@ -258,7 +258,7 @@ CORE.AJAX.handler = function() {
                     break;
 
                 case 'POST' :
-                    errortext = 'Ajax POST: No form action for submit found. Neither as "formaction" nor as "data-url", "data-href" or "action" attribute from the form itself. Aborting request.';
+                    errortext = 'Ajax POST: No form action for submit found. Neither as "formaction" nor as "data-url", "data-href" from submitting button nor an "action" attribute from the form itself. Aborting request.';
                     break;
             }
             toConsole(errortext, 'error');
@@ -304,12 +304,19 @@ CORE.AJAX.handler = function() {
  */
 CORE.AJAX.getAjaxOptions = function(element) {
 
-    var ajaxOptions = {
-        url : false,
-        type : 'GET',
-        data : false,
-        pushState : true
-    };
+    if (jQuery(element).data('ajax-options') !== undefined) {
+        var ajaxOptions = jQuery(element).data('ajax-options')
+    } else {
+        var ajaxOptions = {};
+    }
+
+    var defaultOptions = ['url' = false, 'type' = 'GET', 'dataType' = 'json', 'data' = false, 'pushState' = true, 'cache' = false];
+
+    jQuery.each(defaultOptions, function(prop, val) {
+        if (ajaxOptions.hasOwnProperty(prop) === false) {
+            ajaxOptions[prop] = val;
+        }
+    }
 
     // Which url to reqest? The data attribute "form"
     // indicates that we are going to send a
@@ -359,11 +366,11 @@ CORE.AJAX.getAjaxOptions = function(element) {
             case (jQuery(element).attr('formaction') !== undefined) :
                 ajaxOptions.url = jQuery(element).attr('formaction');
                 break;
-            case (jQuery(element).data('url') !== undefined) :
-                ajaxOptions.url = jQuery(element).data('url');
-                break;
             case (jQuery(element).data('href') !== undefined) :
                 ajaxOptions.url = jQuery(element).data('href');
+                break;
+            case (jQuery(element).data('url') !== undefined) :
+                ajaxOptions.url = jQuery(element).data('url');
                 break;
             case (id !== false && jQuery('#' + id).attr('action') !== undefined) :
                 ajaxOptions.url = jQuery('#' + id).attr('action');
