@@ -3,7 +3,7 @@ A php/javascript library to perform ajax requests from any html element, handlin
 
 ## Getting started
 
-You need PHP >= 7 to an jQuery >= 1.12.4 to use Core/Ajax.
+You need PHP >= 7.0 and jQuery >= 1.12.4 to use Core/Ajax.
 
 [Visit projectsite](https://corelibs.tekkla.de/ajax/)
 
