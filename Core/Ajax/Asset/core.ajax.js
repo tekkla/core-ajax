@@ -326,7 +326,7 @@ CORE.AJAX.getAjaxOptions = function(element) {
     });
 
     // Try to find requesturl only when there is nome set in ajaxOptions
-    if (ajaxOptions.url == false || ajaxOptions.url.length == 0)) {
+    if (ajaxOptions.url == false || ajaxOptions.url.length == 0) {
 
         // Which url to reqest? The data attribute "form"
         // indicates that we are going to send a
