@@ -325,68 +325,71 @@ CORE.AJAX.getAjaxOptions = function(element) {
         }
     });
 
-    // Which url to reqest? The data attribute "form"
-    // indicates that we are going to send a
-    // form. Without element, it is a normal link, that we are
-    // going to load.
+    // Try to find requesturl only when there is nome set in ajaxOptions
+    if (ajaxOptions.url == false || ajaxOptions.url.length == 0)) {
 
-    if (jQuery(element).data('form') === undefined && jQuery(element).attr('form') === undefined) {
+        // Which url to reqest? The data attribute "form"
+        // indicates that we are going to send a
+        // form. Without element, it is a normal link, that we are
+        // going to load.
+        if (jQuery(element).data('form') === undefined && jQuery(element).attr('form') === undefined) {
 
-        // Try to get url either from links href attribute or
-        switch (true) {
-            case (jQuery(element).attr('href') !== undefined) :
-                ajaxOptions.url = jQuery(element).attr('href');
-                break;
-            case (jQuery(element).data('href') !== undefined) :
-                ajaxOptions.url = jQuery(element).data('href');
-                break;
-            case (jQuery(element).data('url') !== undefined) :
-                ajaxOptions.url = jQuery(element).data('url');
-                break;
-        }
+            // Try to get url either from links href attribute or
+            switch (true) {
+                case (jQuery(element).attr('href') !== undefined) :
+                    ajaxOptions.url = jQuery(element).attr('href');
+                    break;
+                case (jQuery(element).data('href') !== undefined) :
+                    ajaxOptions.url = jQuery(element).data('href');
+                    break;
+                case (jQuery(element).data('url') !== undefined) :
+                    ajaxOptions.url = jQuery(element).data('url');
+                    break;
+            }
 
-    } else {
+        } else {
 
-        // Ext forms will be handled py POST
-        ajaxOptions.type = 'POST';
+            // Ext forms will be handled py POST
+            ajaxOptions.type = 'POST';
 
-        var id = false;
+            var id = false;
 
-        // Get form id
-        switch (true) {
-            case (jQuery(element).attr('form') !== undefined) :
-                id = jQuery(element).attr('form');
-                break;
+            // Get form id
+            switch (true) {
+                case (jQuery(element).attr('form') !== undefined) :
+                    id = jQuery(element).attr('form');
+                    break;
 
-            case (jQuery(element).data('form') !== undefined) :
-                id = jQuery(element).data('form');
-                break;
-        }
+                case (jQuery(element).data('form') !== undefined) :
+                    id = jQuery(element).data('form');
+                    break;
+            }
 
-        // Since this is a form post, get the data to send to server
-        if (id !== false) {
-            ajaxOptions.data = jQuery('#' + id).serialize();
-        }
+            // Since this is a form post, get the data to send to server
+            if (id !== false) {
+                ajaxOptions.data = jQuery('#' + id).serialize();
+            }
 
-        // Get action url
-        switch (true) {
-            case (jQuery(element).attr('formaction') !== undefined) :
-                ajaxOptions.url = jQuery(element).attr('formaction');
-                break;
-            case (jQuery(element).data('href') !== undefined) :
-                ajaxOptions.url = jQuery(element).data('href');
-                break;
-            case (jQuery(element).data('url') !== undefined) :
-                ajaxOptions.url = jQuery(element).data('url');
-                break;
-            case (id !== false && jQuery('#' + id).attr('action') !== undefined) :
-                ajaxOptions.url = jQuery('#' + id).attr('action');
-                break;
+            // Get action url
+            switch (true) {
+                case (jQuery(element).attr('formaction') !== undefined) :
+                    ajaxOptions.url = jQuery(element).attr('formaction');
+                    break;
+                case (jQuery(element).data('href') !== undefined) :
+                    ajaxOptions.url = jQuery(element).data('href');
+                    break;
+                case (jQuery(element).data('url') !== undefined) :
+                    ajaxOptions.url = jQuery(element).data('url');
+                    break;
+                case (id !== false && jQuery('#' + id).attr('action') !== undefined) :
+                    ajaxOptions.url = jQuery('#' + id).attr('action');
+                    break;
+            }
         }
     }
 
     if (jQuery(this).data('no-state') !== undefined) {
-        ajaxOptions.pushState = false;
+        ajaxOptions.pushState = true;
     }
 
     return ajaxOptions;
