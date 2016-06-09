@@ -134,7 +134,7 @@ CORE.AJAX.handler = function() {
     };
 
     /**
-     * Thanks to skerit
+     * Appends a parameter to an url. Thanks to skerit.
      *
      * @author http://stackoverflow.com/users/233428/skerit
      * @see http://stackoverflow.com/a/6954277
@@ -192,6 +192,34 @@ CORE.AJAX.handler = function() {
     };
 
     /**
+     * Removes as parameter from an url
+     *
+     * @param {string}
+     *         url - The url
+     * @param {string}
+     *         parameterName - Name of parameter to remove
+     * @return {string}
+     */
+    var removeAjaxParameter = function(url, parameterName) {
+
+        var urlparts = url.split('?');
+
+        if (urlparts.length >= 2) {
+            var urlBase = urlparts.shift();
+            var queryString = urlparts.join("?");
+            var prefix = encodeURIComponent(parameterName) + '=';
+            var pars = queryString.split(/[&;]/g);
+            for (var i = pars.length; i-- > 0;) {
+                if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+                    pars.splice(i, 1);
+                }
+            }
+            url = urlBase + (pars.length > 1 ? '?' + pars.join('&') : '');
+        }
+        return url;
+    };
+
+    /**
      * Thanks to Jason Bunting
      *
      * @author http://stackoverflow.com/users/1790/jason-bunting
@@ -201,11 +229,9 @@ CORE.AJAX.handler = function() {
 
         var args = null;
 
-        if( Object.prototype.toString.call(arguments[2]) !== '[object Array]' ) {
+        if (Object.prototype.toString.call(arguments[2]) !== '[object Array]') {
             args = Array.prototype.slice.call(arguments, 2);
-        }
-        else
-        {
+        } else {
             args = arguments[2];
         }
 
@@ -292,7 +318,7 @@ CORE.AJAX.handler = function() {
 
         // Experimental pushState support für ajax requests
         if (ajaxOptions.type !== 'POST' && ajaxOptions.pushState === true) {
-            history.pushState({}, '', ajaxOptions.url);
+            history.pushState({}, '', removeAjaxParameter(ajaxOptions.url, 'ajax'));
         }
     };
 
@@ -306,8 +332,7 @@ CORE.AJAX.handler = function() {
 /**
  * Generates ajax options from DOM element
  *
- * @param {element} element
- *
+ * @param element
  * @returns {Object}
  */
 CORE.AJAX.getAjaxOptions = function(element) {
@@ -435,12 +460,9 @@ jQuery(document).on('click', CORE.AJAX.clickSelector, function(event) {
         }
     }
 
-    if (jQuery(this).attr('data-ajax') !== undefined) {
+    var ajaxOptions = CORE.AJAX.getAjaxOptions(this);
+    var ajax = new CORE.AJAX.handler();
 
-        var ajaxOptions = CORE.AJAX.getAjaxOptions(this);
-        var ajax = new CORE.AJAX.handler();
-
-        ajax.showLog(CORE.AJAX.showLog);
-        ajax.process(ajaxOptions);
-    }
+    ajax.showLog(CORE.AJAX.showLog);
+    ajax.process(ajaxOptions);
 });
