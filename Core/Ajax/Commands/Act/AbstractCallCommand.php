@@ -33,10 +33,10 @@ abstract class AbstractCallCommand extends AbstractActCommand
     public function setCallArgument($arg)
     {
         $this->call_argument = $arg;
-        $this->args([
+        $this->args =[
             $this->call_function,
             $this->call_argument
-        ]);
+        ];
     }
 
     /**

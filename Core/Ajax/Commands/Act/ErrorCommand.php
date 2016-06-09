@@ -35,10 +35,13 @@ class ErrorCommand extends AbstractCallCommand
             $target = 'body';
         }
 
-        $this->call_argument = [
-            $target,
-            $error
-        ];
+        $this->error = $error;
+        $this->target = $target;
+
+        $this->setCallArgument([
+            $this->target,
+            $this->error
+        ]);
     }
 
     public function setError($error) {
