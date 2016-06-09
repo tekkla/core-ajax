@@ -46,7 +46,6 @@ CORE.createNS("CORE.AJAX.COMMAND");
 /**
  * Config
  */
-
 CORE.AJAX.showLog = true;
 CORE.AJAX.clickSelector = '*[data-ajax]';
 
@@ -200,7 +199,16 @@ CORE.AJAX.handler = function() {
      */
     var executeFunctionByName = function(functionName, context) {
 
-        var args = [].slice.call(arguments).splice(2);
+        var args = null;
+
+        if( Object.prototype.toString.call(arguments[2]) !== '[object Array]' ) {
+            args = Array.prototype.slice.call(arguments, 2);
+        }
+        else
+        {
+            args = arguments[2];
+        }
+
         var namespaces = functionName.split(".");
         var func = namespaces.pop();
 
@@ -298,16 +306,16 @@ CORE.AJAX.handler = function() {
 /**
  * Generates ajax options from DOM element
  *
- * @param {Element}
- *         element - DOM Element to biuld options of
+ * @param {element} element
+ *
  * @returns {Object}
  */
 CORE.AJAX.getAjaxOptions = function(element) {
 
+    var ajaxOptions = {};
+
     if (jQuery(element).data('ajax-options') !== undefined) {
-        var ajaxOptions = jQuery(element).data('ajax-options')
-    } else {
-        var ajaxOptions = {};
+        ajaxOptions = jQuery(element).data('ajax-options');
     }
 
     var defaultOptions = {
@@ -326,7 +334,7 @@ CORE.AJAX.getAjaxOptions = function(element) {
     });
 
     // Try to find requesturl only when there is nome set in ajaxOptions
-    if (ajaxOptions.url == false || ajaxOptions.url.length == 0) {
+    if ((ajaxOptions.url == false) || (ajaxOptions.url.length == 0)) {
 
         // Which url to reqest? The data attribute "form"
         // indicates that we are going to send a
