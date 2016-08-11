@@ -46,8 +46,9 @@ CORE.createNS("CORE.AJAX.COMMAND");
 /**
  * Config
  */
-CORE.AJAX.showLog = true;
+CORE.AJAX.showLog = false;
 CORE.AJAX.clickSelector = '*[data-ajax]';
+CORE.AJAX.errortarget = '#core-message';
 
 /**
  * Ajax request handler
@@ -166,7 +167,7 @@ CORE.AJAX.handler = function() {
             var parameters = urlParts[1].split("&");
             for (var i = 0; (i < parameters.length); i++) {
                 var parameterParts = parameters[i].split("=");
-                if (!(replaceDuplicates && (parameterParts[0] == parameterName))) {
+                if (!(replaceDuplicates && (((parameterParts[0] == parameterName))))) {
                     if (newQueryString == "") {
                         newQueryString = "?";
                     } else {
@@ -183,7 +184,7 @@ CORE.AJAX.handler = function() {
         if (atStart) {
             newQueryString = '?' + parameterName + "=" + parameterValue + (newQueryString.length > 1 ? '&' + newQueryString.substring(1) : '');
         } else {
-            if (newQueryString !== "" && (newQueryString != '?')) {
+            if (newQueryString !== "" && (((newQueryString != '?')))) {
                 newQueryString += "&";
             }
             newQueryString += parameterName + "=" + (parameterValue ? parameterValue : '');
@@ -249,8 +250,11 @@ CORE.AJAX.handler = function() {
      * Default errorhandler of ajax request
      */
     var requestErrorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
+
         var errortext = XMLHttpRequest !== undefined ? XMLHttpRequest.responseText : 'Ajax Request Error: ' + textStatus;
-        jQuery('body').prepend(errortext);
+        var errortarget = jQuery(CORE.AJAX.errortarget).length ? CORE.AJAX.errortarget : 'body';
+
+        jQuery(errortarget).html(errortext);
     };
 
     /**
