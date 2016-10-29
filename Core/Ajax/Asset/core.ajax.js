@@ -425,8 +425,8 @@ CORE.AJAX.getAjaxOptions = function(element) {
         }
     }
 
-    if (jQuery(this).data('no-state') !== undefined) {
-        ajaxOptions.pushState = true;
+    if (jQuery(element).data('no-state') !== undefined) {
+        ajaxOptions.pushState = false;
     }
 
     return ajaxOptions;
