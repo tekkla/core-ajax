@@ -343,7 +343,10 @@ CORE.AJAX.getAjaxOptions = function(element) {
 
     var ajaxOptions = {};
 
-    if (jQuery(element).data('ajax-options') !== undefined) {
+    if (jQuery(element).data('ajax')) {
+        ajaxOptions = jQuery(element).data('ajax');
+    }
+    else if (jQuery(element).data('ajax-options') !== undefined) {
         ajaxOptions = jQuery(element).data('ajax-options');
     }
 
