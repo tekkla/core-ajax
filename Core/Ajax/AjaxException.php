@@ -2,11 +2,11 @@
 namespace Core\Ajax;
 
 /**
- * ConfigException class
+ * AjaxException.php
  *
  * @author Michael "Tekkla" Zorn <tekkla@tekkla.de>
- * @license MIT
  * @copyright 2016
+ * @license MIT
  */
 class AjaxException extends \Exception
 {
