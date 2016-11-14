@@ -318,9 +318,6 @@ CORE.AJAX.handler = function() {
 
         // Experimental pushState support für ajax requests
         if (ajaxOptions.type !== 'POST' && ajaxOptions.pushState !== false) {
-
-            console.log('Pushing: ' + requestUrl);
-
             history.pushState(requestUrl, '', requestUrl);
         }
     };
