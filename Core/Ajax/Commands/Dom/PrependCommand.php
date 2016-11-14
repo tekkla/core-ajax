@@ -2,19 +2,19 @@
 namespace Core\Ajax\Commands\Dom;
 
 /**
- * AppendCommand.php
+ * PrependCommand.php
  *
  * @author Michael "Tekkla" Zorn <tekkla@tekkla.de>
  * @copyright 2016
  * @license MIT
  */
-class AppendCommand extends AbstractDomCommand
+class PrependCommand extends AbstractDomCommand
 {
 
     /**
      * Constructor
      *
-     * jQuery($selector).append($content)
+     * jQuery($selector).prepend($content)
      *
      * @param string $selector
      *            The selector
@@ -23,7 +23,7 @@ class AppendCommand extends AbstractDomCommand
      */
     public function __construct($selector, $content)
     {
-        $this->setFunction(self::FUNC_APPEND);
+        $this->setFunction(self::FUNC_PREPEND);
         $this->setSelector($selector);
         $this->setArgs($content);
     }
