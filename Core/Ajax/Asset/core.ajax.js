@@ -5,11 +5,10 @@
  * @see https://www.kenneth-truyers.net/2013/04/27/javascript-namespaces-and-modules/
  */
 
-// create the root namespace and making sure we're not overwriting it
+// Creates the root namespace and making sure we're not overwriting it
 var CORE = CORE || {};
 
-// create a general purpose namespace method
-// this will allow us to create namespace a bit easier
+// Create a general purpose namespace method that will allow us to create namespace a bit easier
 CORE.createNS = function(namespace) {
 
     var nsparts = namespace.split(".");
@@ -43,16 +42,12 @@ CORE.createNS = function(namespace) {
 CORE.createNS("CORE.AJAX");
 CORE.createNS("CORE.AJAX.COMMAND");
 
-/**
- * Config
- */
+// Config
 CORE.AJAX.showLog = false;
 CORE.AJAX.clickSelector = '*[data-ajax]';
 CORE.AJAX.errortarget = '#core-message';
 
-/**
- * Ajax request handler
- */
+// Ajax request handler
 CORE.AJAX.handler = function() {
 
     /**
@@ -301,12 +296,13 @@ CORE.AJAX.handler = function() {
             }
             toConsole(errortext, 'error');
             return false;
-
-        } else {
-            // Append flag to give the processing script a hint that this is an
-            // ajax driven request
-            ajaxOptions.url = appendAjaxParameter(ajaxOptions.url, 'ajax', 1);
         }
+
+        var requestUrl = ajaxOptions.url;
+
+        // Append flag to give the processing script a hint that this is an
+        // ajax driven request
+        ajaxOptions.url = appendAjaxParameter(requestUrl, 'ajax', 1);
 
         // Handle case wehn this is a POST request without data
         if ((ajaxOptions.type == 'POST') && ajaxOptions.data === false) {
@@ -321,8 +317,11 @@ CORE.AJAX.handler = function() {
         jQuery.ajax(ajaxOptions);
 
         // Experimental pushState support für ajax requests
-        if (ajaxOptions.type !== 'POST' && ajaxOptions.pushState === true) {
-            history.pushState({}, '', removeAjaxParameter(ajaxOptions.url, 'ajax'));
+        if (ajaxOptions.type !== 'POST' && ajaxOptions.pushState !== false) {
+
+            console.log('Pushing: ' + requestUrl);
+
+            history.pushState(requestUrl, '', requestUrl);
         }
     };
 
@@ -336,7 +335,8 @@ CORE.AJAX.handler = function() {
 /**
  * Generates ajax options from DOM element
  *
- * @param element
+ * @param {Element}
+ *         element to get the ajax options from
  * @returns {Object}
  */
 CORE.AJAX.getAjaxOptions = function(element) {
@@ -345,8 +345,7 @@ CORE.AJAX.getAjaxOptions = function(element) {
 
     if (jQuery(element).data('ajax')) {
         ajaxOptions = jQuery(element).data('ajax');
-    }
-    else if (jQuery(element).data('ajax-options') !== undefined) {
+    } else if (jQuery(element).data('ajax-options') !== undefined) {
         ajaxOptions = jQuery(element).data('ajax-options');
     }
 
@@ -356,7 +355,7 @@ CORE.AJAX.getAjaxOptions = function(element) {
         'dataType' : 'json',
         'data' : false,
         'pushState' : true,
-        'cache' : false
+        'cache' : false,
     };
 
     Object.keys(defaultOptions).forEach(function(key, index) {
@@ -472,4 +471,28 @@ jQuery(document).on('click', CORE.AJAX.clickSelector, function(event) {
 
     ajax.showLog(CORE.AJAX.showLog);
     ajax.process(ajaxOptions);
+});
+
+/**
+ * Popstate history handling
+ */
+
+// Store the initial content so we can revisit it later
+jQuery(window).on("load", function() {
+    history.replaceState(document.location.href, document.title, document.location.href);
+});
+
+/**
+ * Processes popState event
+ */
+jQuery(window).on("popstate", function(e) {
+
+    var ajax = new CORE.AJAX.handler();
+
+    ajax.showLog(CORE.AJAX.showLog);
+    ajax.process({
+        url : e.originalEvent.state !== undefined ? e.originalEvent.state : location.href,
+        pushState: false
+    });
+
 });
