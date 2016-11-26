@@ -1,11 +1,11 @@
 /**
  * Thanks to Kenneth Truyers for his idea of how to implement namespaces in javascript
- *
+ * 
  * @author https://www.kenneth-truyers.net/about-kenneth-truyers/
  * @see https://www.kenneth-truyers.net/2013/04/27/javascript-namespaces-and-modules/
  */
 
-// Creates the root namespace and making sure we're not overwriting it
+// Create the root namespace and making sure we're not overwriting it!
 var CORE = CORE || {};
 
 // Create a general purpose namespace method that will allow us to create namespace a bit easier
@@ -38,28 +38,65 @@ CORE.createNS = function(namespace) {
     return parent;
 };
 
-// Create the namespace for products
+// Used namespaces
 CORE.createNS("CORE.AJAX");
 CORE.createNS("CORE.AJAX.COMMAND");
 
-// Config
-CORE.AJAX.showLog = false;
-CORE.AJAX.clickSelector = '*[data-ajax]';
-CORE.AJAX.errortarget = '#core-message';
+/**
+ * Events which should be bound on elements
+ * 
+ * @var string
+ * @default 'click'
+ */
+CORE.AJAX.clickEvents = 'click';
 
-// Ajax request handler
+/**
+ * Elements with this selector to bind clickevents on
+ * 
+ * @var string
+ * @default '*[data-ajax]
+ */
+CORE.AJAX.clickSelector = '*[data-ajax]';
+
+/**
+ * Default target to run DOM action on when the selector inside the DOM action not found
+ * 
+ * @var string
+ * @default 'body'
+ */
+CORE.AJAX.defaultTarget = 'body';
+
+/**
+ * Default target to run DOM action on when the selector inside the DOM action not found
+ * 
+ * @var string
+ * @default '#core-message'
+ */
+CORE.AJAX.errorTarget = '#core-message';
+
+/**
+ * Flag to activate console output for debugging
+ * 
+ * @var boolean
+ * @default false
+ */
+CORE.AJAX.showLog = false;
+
+/**
+ * The Ajax request handler
+ */
 CORE.AJAX.handler = function() {
 
     /**
      * Switch to enable/disabel debug output to console
-     *
+     * 
      * @var boolean
      */
     var flagToConsole = false;
 
     /**
      * Writes content to consoles log
-     *
+     * 
      * @param {mixed}
      *         content - The content to show in console
      * @param {string}
@@ -78,7 +115,7 @@ CORE.AJAX.handler = function() {
 
     /**
      * Activates logoutput to console
-     *
+     * 
      * @param {boolean}
      *         flag - Flag to switch console output on or off
      */
@@ -88,7 +125,7 @@ CORE.AJAX.handler = function() {
 
     /**
      * Parses json object and processes all DOM and ACT commands.
-     *
+     * 
      * @param {json}
      *         json - JSON with commands to process
      */
@@ -99,17 +136,28 @@ CORE.AJAX.handler = function() {
         jQuery.each(json, function(type, stack) {
             // DOM manipulations
             if (type == 'dom') {
-                jQuery.each(stack, function(id, cmd) {
-                    if (jQuery(id).length) {
-                        jQuery.each(cmd, function(i, x) {
-                            if (jQuery.isFunction(jQuery()[x.f])) {
-                                return jQuery(id)[x.f](x.a);
-                            }
-                            toConsole('Unknown method/function "' + x.f + '"', 'error');
-                        });
-                        return;
+                jQuery.each(stack, function(selector, cmd) {
+
+                    // Check selector exits in dom and use default selector if not
+                    if (!jQuery(selector).length) {
+
+                        var consoleText = 'Selector "' + selector + '" not found.';
+
+                        selector = CORE.AJAX.defaultTarget;
+
+                        consoleText += ' Using default target "' + selector + '" instead.';
+
+                        toConsole(consoleText, 'error');
                     }
-                    toConsole('Selector "' + id + '" not found.', 'error');
+
+                    jQuery.each(cmd, function(i, x) {
+                        if (jQuery.isFunction(jQuery()[x.f])) {
+                            return jQuery(selector)[x.f](x.a);
+                        }
+                        toConsole('Unknown method/function "' + x.f + '"', 'error');
+                    });
+                    return;
+
                 });
             }
 
@@ -131,7 +179,7 @@ CORE.AJAX.handler = function() {
 
     /**
      * Appends a parameter to an url. Thanks to skerit.
-     *
+     * 
      * @author http://stackoverflow.com/users/233428/skerit
      * @see http://stackoverflow.com/a/6954277
      * @param {String}
@@ -189,7 +237,7 @@ CORE.AJAX.handler = function() {
 
     /**
      * Removes as parameter from an url
-     *
+     * 
      * @param {string}
      *         url - The url
      * @param {string}
@@ -217,7 +265,7 @@ CORE.AJAX.handler = function() {
 
     /**
      * Thanks to Jason Bunting
-     *
+     * 
      * @author http://stackoverflow.com/users/1790/jason-bunting
      * @see http://stackoverflow.com/a/359910
      */
@@ -247,14 +295,13 @@ CORE.AJAX.handler = function() {
     var requestErrorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
 
         var errortext = XMLHttpRequest !== undefined ? XMLHttpRequest.responseText : 'Ajax Request Error: ' + textStatus;
-        var errortarget = jQuery(CORE.AJAX.errortarget).length ? CORE.AJAX.errortarget : 'body';
 
-        jQuery(errortarget).html(errortext);
+        jQuery(CORE.AJAX.errorTarget || CORE.AJAX.defaultTarget).html(errortext);
     };
 
     /**
      * Runs an ajax request with the ajaxOptions to provide
-     *
+     * 
      * @param {Object}
      *         ajaxOptions
      */
@@ -331,7 +378,7 @@ CORE.AJAX.handler = function() {
 
 /**
  * Generates ajax options from DOM element
- *
+ * 
  * @param {Element}
  *         element to get the ajax options from
  * @returns {Object}
@@ -433,7 +480,7 @@ CORE.AJAX.getAjaxOptions = function(element) {
 
 /**
  * Action function to append an error to a specific selector
- *
+ * 
  * @param {String}
  *         selector - Selector where to append error to
  * @param {String}
@@ -448,12 +495,12 @@ CORE.AJAX.COMMAND.error = function(selector, error) {
 
 /**
  * Bind click handler
- *
+ * 
  * @param {Event}
  *         event - Clickevent
  * @returns {void}
  */
-jQuery(document).on('click', CORE.AJAX.clickSelector, function(event) {
+jQuery(document).on(CORE.AJAX.clickEvents, CORE.AJAX.clickSelector, function(event) {
 
     event.preventDefault();
 
@@ -489,7 +536,7 @@ jQuery(window).on("popstate", function(e) {
     ajax.showLog(CORE.AJAX.showLog);
     ajax.process({
         url : e.originalEvent.state !== undefined ? e.originalEvent.state : location.href,
-        pushState: false
+        pushState : false
     });
 
 });
