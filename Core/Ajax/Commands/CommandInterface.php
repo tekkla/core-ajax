@@ -45,14 +45,14 @@ interface CommandInterface
      * @param string $type
      *            Type of this command can by either be 'dom' oder 'act'
      */
-    public function setType($type);
+    public function setType(string $type);
 
     /**
      * Returns ajax command type
      *
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * Sets function of ajax command
@@ -60,14 +60,14 @@ interface CommandInterface
      * @param string $fn
      *            jQuery functionname of this command
      */
-    public function setFunction($fn);
+    public function setFunction(string $fn);
 
     /**
      * Returns ajax command function
      *
      * @return string
      */
-    public function getFunction();
+    public function getFunction(): string;
 
     /**
      * Sets an optional identifier for this command
@@ -75,12 +75,12 @@ interface CommandInterface
      * @param string $id
      *            Command identifier
      */
-    public function setId($id);
+    public function setId(string $id);
 
     /**
      * Returns command id
      *
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 }
