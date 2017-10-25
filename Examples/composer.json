@@ -1,0 +1,10 @@
+{
+  "name" : "ajax-examples",
+  "require" : {
+    "tekkla/core-ajax" : ">=0.1.2"
+  },
+  "repositories" : [ {
+    "type" : "composer",
+    "url" : "https://packagist.org/"
+  } ]
+}
