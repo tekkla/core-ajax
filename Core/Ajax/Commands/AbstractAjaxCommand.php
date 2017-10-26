@@ -74,11 +74,11 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
      */
     public function setFunction(string $fn)
     {
-        if (empty($function)) {
+        if (empty($fn)) {
             Throw new AjaxCommandException('Empty functionname is not permitted.');
         }
         
-        $this->function = $function;
+        $this->function = $fn;
     }
 
     /**
