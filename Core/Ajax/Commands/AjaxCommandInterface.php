@@ -28,9 +28,9 @@ interface AjaxCommandInterface
     /**
      * Sets the ajax command arguments array
      *
-     * @param array $args
+     * @param mixed $args
      */
-    public function setArgs(array $args);
+    public function setArgs( $args);
 
     /**
      * Returns ajax command arguments

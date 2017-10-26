@@ -44,7 +44,7 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
      * {@inheritdoc}
      * @see \Core\Ajax\Commands\AjaxCommandInterface::setArgs()
      */
-    public function setArgs(array $args)
+    public function setArgs($args)
     {
         $this->args = $args;
     }
