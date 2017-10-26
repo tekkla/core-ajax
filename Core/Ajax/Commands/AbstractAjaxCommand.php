@@ -5,7 +5,7 @@ namespace Core\Ajax\Commands;
  * AbstractAjaxCommand.php
  *
  * @author Michael "Tekkla" Zorn <tekkla@tekkla.de>
- * @copyright 2016
+ * @copyright 2016-2017
  * @license MIT
  */
 abstract class AbstractAjaxCommand implements AjaxCommandInterface
@@ -41,65 +41,60 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::setArgs()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::setArgs()
      */
-    public function setArgs($args)
+    public function setArgs(array $args)
     {
         $this->args = $args;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::setType()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::setType()
      */
-    public function setType($type)
+    public function setType(string $type)
     {
         if (empty($type)) {
             Throw new AjaxCommandException('Empty commandtype is not permitted.');
         }
-
+        
         if ($type != self::ACT && $type != self::DOM) {
             Throw new AjaxCommandException(sprintf('%s is no valid commandtype', $type));
         }
-
+        
         $this->type = $type;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::setFunction()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::setFunction()
      */
-    public function setFunction($function)
+    public function setFunction(string $fn)
     {
         if (empty($function)) {
             Throw new AjaxCommandException('Empty functionname is not permitted.');
         }
-
+        
         $this->function = $function;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::getType()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::getType()
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::getArgs()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::getArgs()
      */
     public function getArgs()
     {
@@ -108,33 +103,30 @@ abstract class AbstractAjaxCommand implements AjaxCommandInterface
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::getFunction()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::getFunction()
      */
-    public function getFunction()
+    public function getFunction(): string
     {
         return $this->function;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::setId()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::setId()
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->id = $id;
     }
 
     /**
      *
-     * {@inheritDoc}
-     *
-     * @see \Core\Ajax\AjaxCommandInterface::getId()
+     * {@inheritdoc}
+     * @see \Core\Ajax\Commands\AjaxCommandInterface::getId()
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
