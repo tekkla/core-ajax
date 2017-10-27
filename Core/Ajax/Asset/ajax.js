@@ -1,20 +1,26 @@
+CORE.AJAX = {
 
-var coreAjax = {
+     callbacks: [],
+     
+     // Method to register callback functions 
+     registerCallback : function(callback) {
+         CORE.AJAX.callbacks.push(callback);
+     },
+        
+    loadAjax : function(element, callback, options) {
 
-    loadAjax : function(element, callback, ajaxOptions) {
-
-        if (ajaxOptions === undefined) {
-            var ajaxOptions = {};
+        if (options === undefined) {
+            var options = {};
         }
 
         // On success the response parser is called
-        if (ajaxOptions.hasOwnProperty('success') === false) {
-            ajaxOptions.success = this.parseJSON;
+        if (options.hasOwnProperty('success') === false) {
+            options.success = this.parseJSON;
         }
 
         // RETURNTYPE IS JSON
-        if (ajaxOptions.hasOwnProperty('dataType') === false) {
-            ajaxOptions.dataType = 'json';
+        if (options.hasOwnProperty('dataType') === false) {
+            options.dataType = 'json';
         }
 
         // Which url to reqest? The data attribute "form"
@@ -24,7 +30,7 @@ var coreAjax = {
         if ($(element).data('form') === undefined && $(element).attr('form') === undefined) {
 
             // Ext links will be handled by GET
-            ajaxOptions.type = 'GET';
+            options.type = 'GET';
 
             // Try to get url either from links href attribute or
             if ($(element).attr('href') !== undefined) {
@@ -40,58 +46,58 @@ var coreAjax = {
         } else {
 
             // Ext forms will be handled py POST
-            ajaxOptions.type = 'POST';
+            options.type = 'POST';
 
             // Get form id
             switch (true) {
-                case ($(element).attr('form') !== undefined):
+                case ($(element).attr('form') !== undefined) :
                     var id = $(element).attr('form');
                     break;
 
-                case ($(element).data('form') !== undefined):
+                case ($(element).data('form') !== undefined) :
                     var id = $(element).data('form');
                     break;
-                default:
+                default :
                     console.log('Ajax POST: No form id to submit found. Neither as "form" nor as "data-form" attribute. Aborting request.');
                     return false;
             }
 
             // Get action url
             switch (true) {
-                case ($(element).attr('formaction') !== undefined):
+                case ($(element).attr('formaction') !== undefined) :
                     var url = $(element).attr('formaction');
                     break;
-                case ($(element).data('url') !== undefined):
+                case ($(element).data('url') !== undefined) :
                     var url = $(element).data('url');
                     break;
-                case ($(element).data('href') !== undefined):
+                case ($(element).data('href') !== undefined) :
                     var url = $(element).data('href');
                     break;
-                case ($('#' + id).attr('action') !== undefined):
+                case ($('#' + id).attr('action') !== undefined) :
                     var url = $('#' + id).attr('action');
                     break;
-                default:
+                default :
                     console.log('Ajax POST: No form action for submit found. Neither as "formaction" nor as "data-url", "data-href" or "action" attribute from the form itself. Aborting request.');
                     return false;
             }
 
             // Since this is a form post, get the data to send to
             // server
-            ajaxOptions.data = $('#' + id).serialize();
+            options.data = $('#' + id).serialize();
         }
 
         // Set the url to use
-        ajaxOptions.url = url + '/ajax';
+        options.url = url + '/ajax';
 
         // Add error handler
-        ajaxOptions.error = function(XMLHttpRequest, textStatus, errorThrown) {
+        options.error = function(XMLHttpRequest, textStatus, errorThrown) {
             var errortext = XMLHttpRequest !== undefined ? XMLHttpRequest.responseText : 'Ajax Request Error: ' + textStatus;
         };
 
         // Fire ajax request!
-        $.ajax(ajaxOptions);
+        $.ajax(options);
 
-        if (ajaxOptions.type !== 'POST' && $(element).data('nostate') === undefined) {
+        if (options.type !== 'POST' && $(element).data('nostate') === undefined) {
             history.pushState({}, '', url);
         }
 
@@ -134,21 +140,19 @@ var coreAjax = {
             if (type == 'act') {
                 $.each(stack, function(i, cmd) {
                     switch (cmd.f) {
-                        case "error":
+                        case "error" :
                             $(cmd.a[0]).addClass('fade in').append('<p>' + cmd.a[1] + '</p>');
-                            $(cmd.a[0]).bind(
-                                    'closed.bs.alert',
-                                    function() {
-                                        $(this).removeClass().html('').unbind('closed.bs.alert');
-                                    });
+                            $(cmd.a[0]).bind('closed.bs.alert', function() {
+                                $(this).removeClass().html('').unbind('closed.bs.alert');
+                            });
                             break;
-                        case 'getScript':
+                        case 'getScript' :
                             $.getScript(cmd.a);
                             break;
-                        case 'href':
+                        case 'href' :
                             window.location.href = cmd.a;
                             return;
-                        default:
+                        default :
                             [cmd.f](cmd.a);
                             break;
                     }
@@ -156,7 +160,10 @@ var coreAjax = {
             }
         });
 
-        coreFw.readyAndAjax();
+        // Run registered callbacks
+        for (i = 0; i < CORE.AJAX.callbacks.length; i++) {
+            CORE.AJAX.callbacks[i]();
+        }
     }
 }
 
@@ -171,8 +178,7 @@ $(document).on('click', '*[data-confirm], *[data-ajax]', function(event) {
     }
 
     if ($(this).attr('data-ajax') !== undefined) {
-        coreAjax.loadAjax(this);
+        CORE.AJAX.loadAjax(this);
         event.preventDefault();
     }
-
 });
