@@ -350,6 +350,7 @@ CORE.AJAX.handler = function() {
     return {
         process : process,
         showLog : showLog,
+        registerCallback : registerCallback
     };
 
 };
