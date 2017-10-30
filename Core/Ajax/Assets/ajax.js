@@ -1,3 +1,13 @@
+/**
+ * ajax.js
+ * 
+ * Namespace: CORE.AJAX
+ *
+ *  @author Michael Zorn <tekkla@tekkla.de>
+ *  @copyright 2012-2017
+ *  @license MIT
+ */
+
 // Used namespaces
 CORE.createNS("CORE.AJAX");
 CORE.createNS("CORE.AJAX.COMMAND");
