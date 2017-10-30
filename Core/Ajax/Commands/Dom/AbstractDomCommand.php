@@ -2,7 +2,6 @@
 namespace Core\Ajax\Commands\Dom;
 
 use Core\Ajax\Commands\AbstractAjaxCommand;
-use Core\Ajax\Commands\AjaxCommandInterface;
 
 /**
  * AbstractDomCommand.php
