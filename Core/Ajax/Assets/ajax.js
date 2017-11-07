@@ -372,9 +372,6 @@ CORE.AJAX.registerCallback = function(callback) {
  * Execute registered callbacks
  */
 CORE.AJAX.executeCallbacks = function() {
-
-    console.log('Executing callbacks...');
-
     for (i = 0; i < CORE.AJAX.callbacks.length; i++) {
         CORE.AJAX.callbacks[i]();
     }
