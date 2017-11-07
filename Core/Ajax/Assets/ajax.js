@@ -2,10 +2,10 @@
  * ajax.js
  * 
  * Namespace: CORE.AJAX
- *
- *  @author Michael Zorn <tekkla@tekkla.de>
- *  @copyright 2012-2017
- *  @license MIT
+ * 
+ * @author Michael Zorn <tekkla@tekkla.de>
+ * @copyright 2012-2017
+ * @license MIT
  */
 
 // Used namespaces
@@ -348,13 +348,6 @@ CORE.AJAX.handler = function() {
         if (ajaxOptions.type !== 'POST' && ajaxOptions.pushState !== false) {
             history.pushState(requestUrl, '', requestUrl);
         }
-        
-        // Run registered callbacks
-        for (i = 0; i < CORE.AJAX.callbacks.length; i++) {
-            CORE.AJAX.callbacks[i]();
-        }
-
-        
     };
 
     return {
@@ -365,7 +358,8 @@ CORE.AJAX.handler = function() {
 };
 
 /**
- * Registers a callback function that will be called at the end of  CORE.AJAX.handler()
+ * Registers a callback function that will be called at the end of
+ * CORE.AJAX.handler()
  * 
  * @param {Function}
  *            Function to be called
@@ -373,6 +367,18 @@ CORE.AJAX.handler = function() {
 CORE.AJAX.registerCallback = function(callback) {
     CORE.AJAX.callbacks.push(callback);
 };
+
+/**
+ * Execute registered callbacks
+ */
+CORE.AJAX.executeCallbacks = function() {
+
+    console.log('Executing callbacks...');
+
+    for (i = 0; i < CORE.AJAX.callbacks.length; i++) {
+        CORE.AJAX.callbacks[i]();
+    }
+}
 
 /**
  * Generates ajax options from DOM element
@@ -516,6 +522,15 @@ jQuery(document).on(CORE.AJAX.clickEvents, CORE.AJAX.clickSelector, function(eve
 });
 
 /**
+ * Execute registered callbacks on end of ajax request
+ * 
+ * @returns {void}
+ */
+jQuery(document).on("ajaxComplete", function() {
+    CORE.AJAX.executeCallbacks();
+});
+
+/**
  * Popstate history handling
  */
 
@@ -536,5 +551,8 @@ jQuery(window).on("popstate", function(e) {
         url : e.originalEvent.state !== undefined ? e.originalEvent.state : location.href,
         pushState : false
     });
+
+    // Run registered callbacks
+    CORE.AJAX.executeCallbacks();
 
 });
