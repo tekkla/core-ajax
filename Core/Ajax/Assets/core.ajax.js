@@ -9,8 +9,8 @@
  */
 
 // Used namespaces
-CORE.createNS("CORE.AJAX");
-CORE.createNS("CORE.AJAX.COMMAND");
+CORE.createNS("AJAX");
+CORE.createNS("AJAX.COMMAND");
 
 /**
  * Events which should be bound on elements
